@@ -14,27 +14,22 @@ rem  Requirements: PHP 8.1+ (on PATH or in C:\php) and the project's
 rem  dependencies (vendor\, installed with "composer install").
 rem ---------------------------------------------------------------
 
-set "PHP_EXE=php"
-where php >nul 2>nul
-if errorlevel 1 (
-    if exist "C:\php\php.exe" (
-        set "PHP_EXE=C:\php\php.exe"
-    ) else (
-        echo PHP 8.1 or newer is required but was not found.
-        echo Install PHP and add it to PATH, or place it in C:\php.
-        pause
-        exit /b 1
-    )
+rem Locate PHP: first on PATH, otherwise in C:\php
+set "PHP_HOME="
+for %%I in (php.exe) do set "PHP_HOME=%%~dp$PATH:I"
+if not defined PHP_HOME if exist "C:\php\php.exe" set "PHP_HOME=C:\php\"
+if not defined PHP_HOME (
+    echo PHP 8.1 or newer is required but was not found.
+    echo Install PHP and add it to PATH, or place it in C:\php.
+    pause
+    exit /b 1
 )
 
-rem Load the SQLite driver if php.ini does not enable it already
-set "PHP_ARGS="
-"%PHP_EXE%" -r "exit(extension_loaded('pdo_sqlite') ? 0 : 1);"
-if errorlevel 1 (
-    for /f "delims=" %%D in ('"%PHP_EXE%" -r "echo dirname(PHP_BINARY);"') do set "PHP_HOME=%%D"
-    call set PHP_ARGS=-d extension_dir="%%PHP_HOME%%\ext" -d extension=pdo_sqlite
-)
-set PHP="%PHP_EXE%" %PHP_ARGS%
+rem Give PHP the absolute path of its extensions folder, and load the
+rem SQLite driver if php.ini does not enable it already
+set PHP="%PHP_HOME%php.exe" -d extension_dir="%PHP_HOME%ext"
+%PHP% -r "exit(extension_loaded('pdo_sqlite') ? 0 : 1);" 2>nul
+if errorlevel 1 set PHP=%PHP% -d extension=pdo_sqlite
 
 if not exist "vendor\autoload.php" (
     echo Dependencies are missing. Run "composer install" in the project folder first.
