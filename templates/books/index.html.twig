@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}BookBinder | Books{% endblock %}
+
+{% block body %}
+
+<div class="container">
+  <div class="row">
+      <div class="col-md-3" style="margin-top:3rem;">
+    <div class="sticky_filter">
+    <h4 class="text-center"> Find Your Book </h4>
+        <form action="{{ path('app_books', {'off': 1}) }}" method="post">
+            <input type="text" name="bookname" placeholder="Book Name" class="form-control">
+            <br>
+            <input type="text" name="authorname" placeholder="Author Name" class="form-control">
+            <br>
+            <select name="library" class="form-select">
+                <option value="all">All Libraries</option>
+                {% for lib in libraries %}
+                    <option value="{{ lib.getId() }}">{{ lib.getName() }} | {{ lib.getLocation() }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <br>
+            <input type="submit" class="btn btn-success" value="Search ...">
+        </form>
+
+    </div>
+
+    </div>
+    <div class="col-md-9">
+    <br>
+      <div class="row">
+        <div class="col-md-12 d-flex justify-content-center">
+            <a class="btn btn-light mx-2" href="{{ path('app_books', {'off': prev_ind}) }}"><i class="fa-solid fa-chevron-left"></i></a>
+            <a class="btn btn-light mx-2" href="{{ path('app_books', {'off': next_ind}) }}"><i class="fa-solid fa-chevron-right"></i></a>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+
+      {%for book in books %}
+        <div class="col-md-6" style="margin-top: 5rem;">
+            <a href="{{ path('app_book', {'id': book.id}) }}" class="book_card">
+            <img src="{{ book.getCoverImage() }}" alt="">
+            <div class="caption">
+              <h4>{{book.title}}</h4>
+              <h6 class="text-muted">by {{book.author}}</h6>
+
+
+            </div>
+          </a>
+        </div>
+
+        {% endfor %}
+
+
+
+
+      </div>
+
+       <br>
+            <div class="row">
+              <div class="col-md-12 d-flex justify-content-center">
+              <a class="btn btn-light mx-2" href="{{ path('app_books', {'off': prev_ind}) }}"><i class="fa-solid fa-chevron-left"></i></a>
+              <a class="btn btn-light mx-2" href="{{ path('app_books', {'off': next_ind}) }}"><i class="fa-solid fa-chevron-right"></i></a>
+              </div>
+            </div>
+            <br>
+    </div>
+  </div>
+</div>
+{% endblock %}

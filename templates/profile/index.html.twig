@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    BookBinder | HomePage
+{% endblock %}
+
+{% block body %}
+
+ <div class="container mt-4">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="col-md-12">
+                <div class="card" >
+                    <div class="card_image_container">
+                        <img src="https://cdn.pixabay.com/photo/2022/02/12/07/37/books-7008598_1280.jpg" class="card-img-top" alt="...">
+                        <img src="https://robohash.org/{{email}}" id="profile_pic">
+                    </div>
+                <div class="card-body">
+                    <h5 class="card-title text-center">{{name}}</h5>
+                    <p class="card-text text-center text-muted">{{bio}}</p>
+                </div>
+                    <button class="btn btn-warning" id="openEditModal">Edit Profile</button>
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <div class="col-md-9">
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <div class="card" >
+                        <div class="card-header text-bold" >
+                            My Upcoming Meetings
+                        </div>
+                        <ul class="list-group list-group-flush fixed_scroll"  >
+                            {% for meeting in meetings %}
+                                <li class="list-group-item"><a class="attendances" href="#" data-bs-toggle="modal" data-bs-target="#myModal" data-id="{{meeting.getMeeting().getId()}}">{{ meeting.getMeeting().getBook().getTitle() }} | {{ meeting.getMeeting().getLocation().getName() }} | {{ meeting.getMeeting().getDate()|date('d-m-Y H:i') }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <div class="card-header text-bold" >
+                        Meeting by me
+                    </div>
+                    <ul class="list-group list-group-flush fixed_scroll"  >
+                        {% for myMeeting in myMeetings %}
+                            <li class="list-group-item"><a class="hostings" data-id="{{myMeeting.getId()}}" data-bs-toggle="modal" data-bs-target="#myModal" href="#">{{ myMeeting.getBook().getTitle() }} | {{ myMeeting.getLocation().getName() }} | {{ myMeeting.getDate()|date('d-m-Y H:i') }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        {% include "Components/Home/newest_section.html.twig" with {'section_title': 'Favourite books','col_num':3} %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+ </div>
+    <div class="MyModal">
+        <div class="ModalContent modal-sm">
+            <button id="close_modal_btn"><i class="fa-solid fa-xmark"></i></button>
+            <form action="{{ path('app_profile') }}" method="post">
+                <input id="attend_input" type="hidden" name="attend_id">
+                <input id="host_input" type="hidden" name="host_id">
+                <button class="btn btn-warning" id="remove" type="submit">Remove Meeting</button>
+            </form>
+        </div>
+    </div>
+    {% include "Components/EditProfileModal.html.twig"%}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll(".attendances").forEach(function(attendance) {
+                var attendanceId;
+                attendance.addEventListener("click", function() {
+                    attendanceId = this.dataset.id;
+                    document.querySelector(".MyModal").classList.contains("open")?document.querySelector(".MyModal").classList.remove("open"):document.querySelector(".MyModal").classList.add("open");
+                    document.querySelector("#attend_input").value = attendanceId;
+                });
+                document.querySelector("#close_modal_btn").addEventListener("click",()=>{
+                    document.querySelector(".MyModal").classList.contains("open")?document.querySelector(".MyModal").classList.remove("open"):document.querySelector(".MyModal").classList.add("open");
+                });
+            });
+            document.querySelectorAll(".hostings").forEach(function(hosting) {
+                var hostingId;
+                hosting.addEventListener("click", function() {
+                    hostingId = this.dataset.id;
+                    document.querySelector(".MyModal").classList.contains("open")?document.querySelector(".MyModal").classList.remove("open"):document.querySelector(".MyModal").classList.add("open");
+                    document.querySelector("#host_input").value = hostingId;
+                });
+                document.querySelector("#close_modal_btn").addEventListener("click",()=>{
+                    document.querySelector(".MyModal").classList.contains("open")?document.querySelector(".MyModal").classList.remove("open"):document.querySelector(".MyModal").classList.add("open");
+                });
+            });
+        });
+    </script>
+{% endblock %}
+

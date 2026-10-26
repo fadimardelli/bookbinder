@@ -1,0 +1,44 @@
+<link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap.min.css')}}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="{{asset("css/style.css")}}">
+
+{% block body %}
+    {{ form_start(registrationForm) }}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 offset-md-4 mt-5">
+                <img src="imgs/logo.png" class="img-rounded" style="width:100%" alt="Cinque Terre">
+                <div class="mb-3">
+                    {{ form_label(registrationForm.username, 'Username', {'label_attr': {'class': 'form-label text-bold'}}) }}
+                    {{ form_widget(registrationForm.username, {'attr': {'class': 'form-control mb-1'}}) }}
+                    {{ form_errors(registrationForm.username) }}
+                    {{ form_help(registrationForm.username) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_label(registrationForm.email, 'Email address', {'label_attr': {'class': 'form-label text-bold'}}) }}
+                    {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(registrationForm.email) }}
+                    {{ form_help(registrationForm.email) }}
+                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                </div>
+                <div class="mb-3">
+                    {{ form_label(registrationForm.plainPassword, 'Password', {'label_attr': {'class': 'form-label text-bold'}}) }}
+                    {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(registrationForm.plainPassword) }}
+                    {{ form_help(registrationForm.plainPassword) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_row(registrationForm.agreeTerms) }}
+                </div>
+                <div class="mb-3 d-flex justify-content-between align-items-center">
+                    <button type="submit" class="btn bg-warning offset-4 col-md-3">Register</button>
+                </div>
+                <hr style="border-top: 1px solid">
+                <p> Already have an account?
+                    <a href="{{ path('app_login') }}" class="btn btn-link mb-2">Login</a>
+                </p>
+        </div>
+        </div>
+    </div>
+    {{ form_end(registrationForm) }}
+{% endblock %}

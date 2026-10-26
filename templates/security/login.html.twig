@@ -1,0 +1,46 @@
+<link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap.min.css')}}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="{{asset("css/style.css")}}">
+
+{% block body %}
+<form method="post">
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    {% if app.user %}
+        <div class="mb-3">
+            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+    {% endif %}
+
+    <div class="container">
+        <div class="row">
+        <div class="col-md-4 offset-md-4 mt-5">
+            <img src="imgs/logo.png" class="img-rounded" style="width:100%" alt="Cinque Terre">
+        <form class="mt-5">
+            <div class="mb-3">
+                <label for="inputEmail" class="form-label text-bold">Email address</label>
+                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus aria-describedby="emailHelp">
+                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            </div>
+            <div class="mb-3">
+                <label for="inputPassword" class="form-label text-bold">Password</label>
+                <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+            </div>
+            <input type="hidden" name="_csrf_token"
+                   value="{{ csrf_token('authenticate') }}"
+            >
+            <div>
+                <button class="btn bg-warning offset-4 col-md-3" type="submit">Login</button>
+            </div>
+            <hr style="border-top: 1px solid">
+                <p> No account yet?
+                    <a href="{{ path('app_register') }}" class="btn btn-link mb-2">Register Now</a>
+                </p>
+        </form>
+        </div>
+        </div>
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,40 @@
+<h3 class="section_title_type_2 mt-3">Meetings</h3>
+
+<div class="event_card">
+    <img style="width:100%" src="https://media.istockphoto.com/id/1354989842/photo/banner-with-books-business-and-education-background-back-to-school-concept.jpg?b=1&s=170667a&w=0&k=20&c=sryJ6CANaeQ7vSw9TG_Z6dFb9wGlTdIHDh5_zxkIT5M=">
+    <div class="event_card_caption">
+        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <h4>{{ meetings|first.getBook().getTitle() }}</h4>
+                    <h6>Organised By: <a>{{ meetings|first.getUser().getUserName() }}</a></h6>
+                    <span class="date"><i class="fa-solid fa-calendar-days"></i> {{ meetings|first.getDate()|date('d-m-Y H:i') }}</span>
+                    <span class="location"><i class="fa-solid fa-location-dot"></i> {{ meetings|first.getLocation().getName() }} </span>
+                    <p class="text-muted">{{ meetings|first.getDescription() }}</p>
+                </div>
+
+                {% set sliced_meetings = meetings|slice(1) %}
+
+                {% for meeting in sliced_meetings %}
+                    <div class="carousel-item">
+                        <h4>{{ meeting.getBook().getTitle() }}</h4>
+                        <h6>Organised By: <a>{{ meeting.getUser().getUserName() }}</a></h6>
+                        <span class="date"><i class="fa-solid fa-calendar-days"></i> {{ meeting.getDate()|date('d-m-Y H:i') }}</span>
+                        <span class="location"><i class="fa-solid fa-location-dot"></i> {{ meeting.getLocation().getName() }} </span>
+                        <p class="text-muted">{{ meeting.getDescription() }}</p>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+
+        <div class=" mt-2 carousel_nav_btns">
+            <button class=" btn " data-bs-target="#carouselExampleControls" data-bs-slide="prev"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class=" btn "  data-bs-target="#carouselExampleControls" data-bs-slide="next"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+    </div>
+</div>  
+
+
+
+

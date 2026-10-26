@@ -1,0 +1,317 @@
+/* activity log style
+ */
+
+
+.activity-feed {
+    padding: 15px;
+    list-style: none;
+}
+.activity-feed .feed-item {
+    position: relative;
+    padding-bottom: 20px;
+    padding-left: 30px;
+    border-left: 2px solid #e4e8eb;
+}
+.activity-feed .feed-item:last-child {
+    border-color: transparent;
+}
+.activity-feed .feed-item::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: -6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 6px;
+    background: #fff;
+    border: 1px solid #f37167;
+}
+.activity-feed .feed-item .date {
+    display: block;
+    position: relative;
+    top: -5px;
+    color: #8c96a3;
+    text-transform: uppercase;
+    font-size: 13px;
+}
+.activity-feed .feed-item .text {
+    position: relative;
+    top: -3px;
+}
+
+
+
+.photo-container {
+    font-size: 1.5em;
+    background-color: #2c3e52;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    grid-area: photo;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.card-container {
+    margin: 10px;
+    display: grid;
+    grid-template-areas:
+    'photo info';
+    grid-template-columns: 150px 1fr;
+    width: 100%;
+    background-color: #ffffff;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    line-height: 1.75em;
+}
+.info-container {
+    padding: 20px;
+    grid-area: info;
+}
+.event-name {
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+.event-location {
+    font-weight: 300;
+}
+.event-date{
+    font-weight: 300;
+}
+.event-organiser {
+    font-weight: 300;
+}
+.day {
+    font-weight: 300;
+}
+.month {
+    font-weight: 600;
+}
+
+@media( max-width: 600px ) {
+    .card-container {
+        width: 90%;
+    }
+}
+
+.book_card{
+    display: block;
+    width: 100%;
+    position: relative;
+    background: #fafafa;
+    padding: 1rem;
+    border-radius: 5px;
+}
+.book_card img{
+    border-radius: 5px;
+    width: 30%;
+    aspect-ratio: 3/4;
+    top: -2rem;
+    left: 1.5rem;
+    position: absolute;
+    box-shadow: 0 0 5px 5px #20202040;
+    transition: all .25s ease-in-out;
+}
+.book_card img:hover{
+    transform: scale(1.05);
+}
+.book_card .caption{
+    width: 60%;
+    margin-left: 40%;
+    padding: 3rem 0;
+    height: 100%;
+}
+.book_card .caption h4{
+    font-size: 1.2rem;
+}
+.book_card .caption h6{
+    font-size: .8rem;
+}
+.book_card .caption p{
+    font-size: .7rem;
+    opacity: .7;
+}
+
+.sticky_filter{
+    position: sticky;
+    top: 10%;
+    border-right: 1px solid #20202050;
+    padding: 0 0.5rem 2rem 0.5rem;
+}
+
+
+.bookDetails h1{
+    font-size: 1.5rem;
+
+}
+.bookDetails h3{
+    font-size: 1.3rem;
+
+}
+
+.bookDetails h4{
+    font-size: 1.2rem;
+
+
+}
+.bookDetails ul{
+    padding: 0.5rem 1rem;
+
+}
+
+.bookImg{
+    width: 100%;
+
+}
+.bookRating{
+    display:flex;
+    flex-direction: row;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    width: 100%;
+
+
+}
+
+.bookRating li{
+    margin: 10px;
+}
+
+.bookRating li i{
+
+    color: #f39c12;
+    font-size: 1.5rem;
+}
+
+.rating_star_container button{
+    border:0;
+    font-size: 1.5rem;
+    color: #f39c12;
+    background: transparent;
+    outline: none !important;
+
+
+}
+
+.btn_submit{
+    background: #f39c12 ;
+}
+
+.review{
+
+    padding: 0.5rem 1rem;
+    border-left: 4px solid #ccc;
+    margin-bottom: 1rem;
+
+
+}
+
+
+.review span i{
+
+    font-size: 0.9rem;
+    margin: 0 5px;
+
+}
+.review .bookRating{
+    display:flex;
+    flex-direction: row;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    justify-content: flex-start;
+    align-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.review .bookRating li
+{    margin: 0;
+    margin-right: 3px;
+
+
+}
+.review p{
+    font-weight: bolder;
+    margin: 0;
+    padding: 0;
+}
+.review .bookRating li i{
+
+    color: #f39c12;
+    font-size: 1rem;
+}
+.btn_love i{
+
+    color: red;
+    font-size: 1.25rem;
+
+}
+
+.btn_love {
+    padding: 0;
+    margin: 0;
+    outline: none !important;
+    border: 0;
+    background: transparent;
+}
+
+.btn_love:visited{
+}
+
+#meeting_float_btn{
+    position: fixed;
+    bottom: 2vh;
+    right: 2vw;
+    width: 3.5rem;
+    height: 3.5rem;
+    background: #1e0e55;
+    border: 0;
+    border-radius: 50%;
+    color: #fff;
+}
+
+#meeting_float_btn i{
+    font-size: 1.4rem;
+    z-index: 99999;
+}
+
+.MyModal{
+    display: none;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0vh;
+    left: 0vw;
+    z-index: 999999;
+    background: #20202070;
+    backdrop-filter: blur(7px);
+    padding: 1rem;
+}
+
+.MyModal .ModalContent{
+    position: absolute;
+    width: 60vw;
+    height: 80vh;
+    top: 10vh;
+    left: 20vw;
+    background: #fff;
+    padding: 1rem;
+    border-radius: 15px;
+    box-shadow: 0 0 20px 20px #20202050;
+}
+
+.MyModal.open {
+    display: block;
+}
+#close_modal_btn{
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    border: 0;
+    background: transparent;
+}

@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="col-md-10 mt-3 ml-10">
+  <h2>Search Results: </h2>
+{#  <section>#}
+{#    <form action="/searchresults" method="post">#}
+{#      <input type="text" name="search" id="search" placeholder="Search all books...">#}
+{#      <br>#}
+{#      <button type="submit" value="search" name="searchButton" id="searchButton">Search</button>#}
+{#    </form>#}
+{#  </section>#}
+</div>
+  <section>
+
+    <div class="col-md-10 mt-3 mx-auto">
+      <div class="row">
+    {% for new in books %}
+      <div class="col-md-3 mb-5 mx-auto" >
+        <a href="{{ path('app_book', {'id': new.id}) }}">
+          <div class="card" style="height:100%;   ">
+            <img src="{{new.getCoverImage()}}" class="card-img-top" alt="{{new.title}}">
+            <div class="card-body">
+              <h5 class="card-title">{{new.title}}</h5>
+              <p class="card-text">{{new.author}}</p>
+            </div>
+          </div>
+        </a>
+      </div>
+    {% endfor %}
+      </diV>
+    </div>
+  </section>
+
+
+{% endblock %}

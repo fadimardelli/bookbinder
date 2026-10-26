@@ -1,0 +1,23 @@
+<h3 class="section_title">{{section_title}}</h3>
+<div class="col-md-12 mt-3">
+
+<div class="row">
+{% for new in newestBooks %}
+    <div class="col-md-{{col_num}} mb-2" >
+        <a href="{{ path('app_book', {'id': new.id}) }}">
+            <div class="card" style="height:100%;   ">
+              <img src="{{new.getCoverImage()}}" class="card-img-top" alt="{{new.title}}">
+              <div class="card-body">
+                  <h5 class="card-title">{{new.title}}</h5>
+                  <p class="card-text">{{new.author}}</p>
+              </div>
+            </div>
+        </a>
+    </div>
+
+{% endfor %}
+
+</diV>
+
+   
+</div>

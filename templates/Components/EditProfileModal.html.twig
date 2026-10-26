@@ -1,0 +1,16 @@
+<script src="{{ asset('js/profilemodal.js') }}" defer></script>
+<div class="MyModalEdit">
+    <div class="ModalContent">
+        <button id="close_modal_btn"><i class="fa-solid fa-xmark"></i></button>
+        <h5 class="text-center text-muted">Edit Profile</h5>
+                <br>
+        <form method="post" action="{{ path('app_profile') }}" name="BioForm">
+            <textarea class="form-control" rows="3" placeholder="Bio ..." name="BioForm[bio]" id="bio_input"></textarea>
+            <br>
+            <input type="submit" class="btn btn-success" id="update_bio">
+        </form>
+
+
+
+    </div>
+</div>

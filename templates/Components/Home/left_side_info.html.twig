@@ -1,0 +1,54 @@
+ <div class="row">
+                <div class="col-md-12">
+                                 <div class="card" >
+                    <div class="card_image_container">
+                        <img src="https://cdn.pixabay.com/photo/2022/02/12/07/37/books-7008598_1280.jpg" class="card-img-top" alt="...">
+                        <img src="https://robohash.org/{{email}}" id="profile_pic">
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title text-center">{{name}}</h5>
+                      <p class="card-text text-center text-muted">{{bio}}</p>
+                    </div>
+                    <button class="btn btn-warning"><a href="{{ path('app_profile') }}">View Profile</a></button>
+
+                  
+                </div> 
+                </div>
+                       
+              </div>
+
+                <div class="row mt-3">   
+                    <div class="col-md-12">
+                           <div class="card" >
+                <div class="card-header text-bold" >
+                 My Upcoming Meetings
+                </div>
+
+                <ul class="list-group list-group-flush fixed_scroll"  >
+                    {% for meeting in attendMeetings %}
+                        <li class="list-group-item"><a>{{ meeting.getMeeting().getBook().getTitle() }} | {{ meeting.getMeeting().getLocation().getName() }} | {{ meeting.getMeeting().getDate()|date('d-m-Y H:i') }}</a></li>
+                    {% endfor %}
+
+                </ul>
+            </div>
+                    </div>
+
+                </div>
+
+ <div class="row mt-3">   
+                    <div class="col-md-12">
+                           <div class="card" >
+                <div class="card-header text-bold" >
+                 Favourite Books
+                </div>
+                <ul class="list-group list-group-flush fixed_scroll" >
+                    {% for favoriteBook in favoriteBooks %}
+                        <li class="list-group-item"><a href="{{ path('app_book', {'id': favoriteBook.id}) }}">{{ favoriteBook.getTitle() }}</a>
+                        </li>
+                    {% endfor %}
+
+                </ul>
+            </div>
+                    </div>
+
+                </div>

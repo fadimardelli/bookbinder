@@ -1,0 +1,154 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class='container'>
+    <div class='row mt-5'>
+        <div class="col-md-8 offset-md-2">
+            <div class="row">
+                <div class="col-md-4">
+                    <img class="bookImg" src="{{ book.getCoverImage() }}">
+                    <ul class="bookRating" id="ratingStars"></ul>
+                </div>
+
+                <div class="col-md-7 mt-2 bookDetails">
+                    <h1> {{ book.getTitle() }} </h1>
+                    <h3 class="text-muted"> {{ book.getAuthor() }} </h3>
+                    <br>
+                    <h4> Available in these libraries </h4>
+                    <ul>
+                        {% for availability in availabilities %}
+                            <li> {{ availability.getLibrary().getName() }}: {{ availability.getCurrentCount }} remaining </li>
+                        {% endfor %}
+                    </ul>
+
+                    <button id="add_to_favourite" class=' btn_love mt-2'> <i class="fa-regular fa-heart"></i>  Add to favourites </button>
+                </div>
+            </div>
+
+            <div class="row mt-5">
+                <div class="col-md-12">
+                    <h2> Write Your Review </h2>
+                    <div class="row">
+                        <div class="rating_star_container">
+                            <button><i class="fa-regular fa-star"></i></button>
+                            <button><i class="fa-regular fa-star"></i></button>
+                            <button><i class="fa-regular fa-star"></i></button>
+                            <button><i class="fa-regular fa-star"></i></button>
+                            <button><i class="fa-regular fa-star"></i></button>
+                        </div>
+                        <p class="mt-2 text-muted">Click on a star to change your rating 1 - 5, where 5 = great! and 1 = really bad</p>
+                    </div>
+                    {{ form_start(form) }}
+
+                    <div style="display: none">
+                        {{ form_label(form.rating) }}
+                        {{ form_widget(form.rating) }}
+                        {{ form_errors(form.rating) }}
+                    </div>
+
+                    {{ form_end(form) }}
+                    <div class="row mt-3">
+                        <h3> Read what others have said about this book: </h3>
+                        <div class="col-md-12">
+                            <div class="reviewsContainer">
+                                {% for review in reviews %}
+                                    <div class="review">
+                                        <ul class="bookRating" id="ratingStars_{{ loop.index }}"></ul>
+                                        <p>{{ review.getReview() }}</p>
+                                        <span class="text-muted"><i class="fa-regular fa-user"></i>{{ review.getUser().getUsername() }}</span>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+{% endblock %}
+
+
+{% block scripts %}
+    <script src="{{ asset('js/book.js') }}"></script>
+    <script>
+
+        let averageRating = {{ book.getAverageRating() }};
+        displayRatingStars(averageRating, "ratingStars");
+
+        submitButton.addEventListener('click', function(event) {
+            window.location.href = "{{ path('app_book', {'id': bookId}) }}";
+        });
+
+        {% for review in reviews %}
+        ratings.push({{ review.getRating() }});
+        elementIds.push('ratingStars_{{ loop.index }}');
+        {% endfor %}
+
+        for (let i = 0; i < ratings.length; i++) {
+            displayRatingStars(ratings[i], elementIds[i]);
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const addToFavoriteBtn = document.querySelector("#add_to_favourite");
+            const favoriteBookIds = {{ favoriteBookIds|json_encode|raw }};
+            const bookId = parseInt("{{ book.getId() }}");
+            if (favoriteBookIds.includes(bookId)) {
+                addToFavoriteBtn.classList.add("liked");
+                addToFavoriteBtn.innerHTML = '<i class="fa-solid fa-heart"></i> Remove from favorites';
+            }
+            addToFavoriteBtn.addEventListener("click", function(e) {
+                if (addToFavoriteBtn.classList.contains("liked")) {
+                    removeFromFavorites(bookId);
+                } else {
+                    addToFavorites(bookId);
+                }
+            });
+            function addToFavorites(bookId) {
+                let additionalAttribute = "additionalAttribute";
+                fetch("{{ path('book_add_to_favorites') }}", {
+                    method: "POST",
+                    body: JSON.stringify({ bookId: bookId, userId: 4 }),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                })
+                    .then(function(response) {
+                        if (response.ok) {
+                            addToFavoriteBtn.classList.add("liked");
+                            addToFavoriteBtn.innerHTML = '<i class="fa-solid fa-heart"></i> Remove from favorites';
+                            console.log("Book added to favorites!");
+                        } else {
+                            console.error("Failed to add book to favorites.");
+                        }
+                    })
+                    .catch(function(error) {
+                        console.error("An error occurred while adding book to favorites:", error);
+                    });
+            }
+            function removeFromFavorites(bookId) {
+                fetch("{{ path('book_remove_from_favorites') }}", {
+                    method: "POST",
+                    body: JSON.stringify({ bookId: bookId, userId: 4 }),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                })
+                    .then(function(response) {
+                        if (response.ok) {
+                            addToFavoriteBtn.classList.remove("liked");
+                            addToFavoriteBtn.innerHTML = '<i class="fa-regular fa-heart"></i> Add to favorites';
+                            console.log("Book removed from favorites!");
+                        } else {
+                            console.error("Failed to remove book from favorites.");
+                        }
+                    })
+                    .catch(function(error) {
+                        console.error("An error occurred while removing book from favorites:", error);
+                    });
+            }
+        });
+    </script>
+
+{% endblock %}
+
+

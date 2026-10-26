@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+<div class="container">
+<div class="row">
+
+  <div class="col-md-3" style="margin-top:3rem;">
+    <div class="sticky_filter">
+      <h4 class="text-center"> Search Meeting </h4>
+      <form action="{{ path('app_filter_meeting') }}" class="d-flex" method="post">
+        <input name="meeting_input" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+      </form>
+    </div>
+
+  </div>
+
+  <div class="col-md-9">
+<div class="col-12 text-center mt-3 ">
+<h1>Upcoming books meetings </h1>
+</div>
+<hr class="border-top border-3 border-dark">
+  {% for meeting in meetings %}
+  <div class="card-container mt-5">
+  <div class="photo-container">
+    <div class="date">
+      <div class="day">{{ meeting.getDate()|date('d') }}</div>
+      <div class="month">{{ meeting.getDate()|date('m') }}</div>
+    </div>
+    <div class="image"></div>
+  </div>
+  <div class="info-container">
+    <div class="event-name">
+      {{ meeting.getBook().getTitle() }}
+    </div>
+    <div class="event-location">
+      {{ meeting.getLocation().getName() }}
+    </div>
+    <div class="event-date">
+      {{ meeting.getDate()|date('d-m-Y H:i') }}
+    </div>
+    <div class="event-organiser">
+      {{ meeting.getUser().getUserName() }}
+    </div>
+    <button class="join_button btn btn-warning" data-id="{{ meeting.getId() }}">Join Meeting</button>
+  </div>
+
+</div>
+  {% endfor %}
+</div>
+</div>
+</div>
+
+  <script src="{{ asset('js/meeting.js') }}"></script>
+{% endblock %}
+
+
+

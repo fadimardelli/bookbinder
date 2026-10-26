@@ -1,0 +1,23 @@
+<script src="{{ asset('js/trending.js') }}"></script>
+<h3 class="section_title">Trending Books</h3>
+    <div class="col-md-12">
+        <div class="own-carousel__container mt-3 px-2">
+            <div class="own-carousel__outer">
+                <div class="own-carousel">
+                {% for trend in trendings %}
+                    <div class="own-carousel__item">
+                        <a href="{{ path('app_book', {'id': trend.id}) }}">
+                            <img style="object-fit:cover;width:100%;height:100%;" src="{{trend.getCoverImage()}}" alt="{{trend.title}}">
+                            <div class="text-caption">
+                                <h6>{{trend.title}}</h6>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+
+
+                </div>
+            </div>
+
+        </div>
+      </div>

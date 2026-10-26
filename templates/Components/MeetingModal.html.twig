@@ -1,0 +1,70 @@
+<div class="MyModal">
+    <div class="ModalContent">
+        <button id="close_modal_btn"><i class="fa-solid fa-xmark"></i></button>
+        <h5 class="text-center text-muted">Add New Meeting</h5>
+        <br>
+        <select id="bookSelect">
+            {% for bk in allbooks%}
+                <option value="{{bk.id}}">{{bk.title}}</option>
+            {% endfor %}
+        </select>
+        <select id="librarySelect">
+            {% for lb in allLibraries%}
+                <option value="{{lb.id}}">{{lb.name}} - {{lb.location}}</option>
+            {% endfor %}
+        </select>
+        <input type="datetime-local" id="meeting_date" class="form-control"><br>
+        <textarea class="form-control" id="meeting_description" placeholder="Meeting Description ..." rows="4"></textarea><br>
+        <button class="btn btn-warning" id="add_new_meeting">Add New Meeting</button>
+    </div>
+</div>
+<button title="Add New Meeting" id="meeting_float_btn"><i class="fa-regular fa-calendar-plus"></i></button>
+
+{% block scripts %}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelector("#meeting_float_btn").addEventListener("click",()=>{
+                document.querySelector(".MyModal").classList.contains("open")?document.querySelector(".MyModal").classList.remove("open"):document.querySelector(".MyModal").classList.add("open")
+            });
+            document.querySelector("#close_modal_btn").addEventListener("click",()=>{
+                document.querySelector(".MyModal").classList.contains("open")?document.querySelector(".MyModal").classList.remove("open"):document.querySelector(".MyModal").classList.add("open")
+            })
+            var selectElement = document.querySelector("#bookSelect");
+            var choices = new Choices(selectElement, {
+                placeholder: true,
+                searchPlaceholderValue: 'Search for an option',
+                removeItemButton: true,
+                shouldSort: false
+            });
+            var librarySelect = document.querySelector("#librarySelect");
+            var choices = new Choices(librarySelect, {
+                placeholder: true,
+                searchPlaceholderValue: 'Search for an option',
+                removeItemButton: true,
+                shouldSort: false
+            });
+
+            document.querySelector("#add_new_meeting").addEventListener("click", async () => {
+                let meeting_object = {
+                    book: document.querySelector("#bookSelect").value,
+                    library: document.querySelector("#librarySelect").value,
+                    date: document.querySelector("#meeting_date").value,
+                    description: document.querySelector("#meeting_description").value
+                };
+
+                await fetch("{{ path('app_addmeetingapi') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(meeting_object)
+                }).then(response => response.json()).then(responseData => {
+                    alert("Meeting has been added successfully");
+                    document.querySelector(".MyModal").classList.remove("open");
+                }).catch(error => {
+                    console.error('Error:', error);
+                });
+            })
+        });
+    </script>
+{% endblock %}
